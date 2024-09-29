@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/models/product.dart';
@@ -29,6 +28,10 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   late String _deliveryTime;
   late int _deliveryDays;
   late int _available_count;
+  int _totalAdded = 0;
+  int _totalSold = 0;
+  late int _previousAvailableCount;
+  late int _lastlyUpdatedAvailableCount;
 
   @override
   void initState() {
@@ -46,6 +49,12 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       _deliveryTime = widget.product!.deliveryTime ?? '';
       _deliveryDays = widget.product!.deliveryDays ?? 0;
       _available_count = widget.product!.Available_count ?? 0;
+      _totalAdded = widget.product!.totalAdded ?? 0;
+      _totalSold = widget.product!.totalSold ?? 0;
+      // Store the previous available count for comparison
+      _previousAvailableCount = _available_count;
+      _lastlyUpdatedAvailableCount =
+          _available_count; // Initialize for existing product
     } else {
       _name = '';
       _description = '';
@@ -59,13 +68,15 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       _deliveryTime = '';
       _deliveryDays = 0;
       _available_count = 0;
+      _previousAvailableCount = 0; // Initialize for new product
+      _lastlyUpdatedAvailableCount = 0; // Initialize for new product
     }
   }
 
   String generateUniqueProductId(String productName) {
-  // Get the first 4 letters of the product name (or pad it if it's shorter)
-    String namePart = productName.length >= 4 
-        ? productName.substring(0, 4).toLowerCase() 
+    // Get the first 4 letters of the product name (or pad it if it's shorter)
+    String namePart = productName.length >= 4
+        ? productName.substring(0, 4).toLowerCase()
         : productName.padRight(4, 'x').toLowerCase();
 
     // Generate a random 4-digit number
@@ -81,23 +92,36 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   void _saveProduct() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      String productId = widget.product?.product_id ?? generateUniqueProductId(_name);
+      String productId =
+          widget.product?.product_id ?? generateUniqueProductId(_name);
+
+      // Calculate the difference for totalAdded
+      print('Current Available Count: $_available_count');
+      print('Previous Available Count: $_previousAvailableCount');
+
+    // Calculate added count
+    int addedCount = _available_count - _previousAvailableCount;
+    print('Calculated Added Count: $addedCount');
 
       final product = Product(
-        product_id: productId,
-        product_name: _name,
-        product_description: _description,
-        product_quantity: _quantity,
-        product_price: _price,
-        product_offerprice: _offerPrice,
-        product_cateogory: _category,
-        product_availability: _availability,
-        product_rating: _rating,
-        imageLink: _imageLink,
-        deliveryTime: _deliveryTime,
-        deliveryDays: _deliveryDays,
-        Available_count: _available_count,
-      );
+          product_id: productId,
+          product_name: _name,
+          product_description: _description,
+          product_quantity: _quantity,
+          product_price: _price,
+          product_offerprice: _offerPrice,
+          product_cateogory: _category,
+          product_availability: _availability,
+          product_rating: _rating,
+          imageLink: _imageLink,
+          deliveryTime: _deliveryTime,
+          deliveryDays: _deliveryDays,
+          Available_count: _available_count,
+          totalAdded: widget.product == null
+          ? addedCount
+          : _totalAdded + addedCount,
+          totalSold: _totalSold, // This can be updated during sales separately
+          lastlyUpdatedAvailableCount: _available_count);
 
       final firestoreService =
           Provider.of<FirestoreService>(context, listen: false);

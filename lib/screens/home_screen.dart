@@ -5,7 +5,7 @@ import 'package:shop_app/screens/add_shop_screen.dart';
 import 'package:shop_app/screens/authenticate_screen.dart';
 import 'package:shop_app/screens/inventory_screen.dart';
 // import 'package:shop_app/screens/inventory_screen.dart';
-import 'package:shop_app/screens/shop_profile_screen.dart';
+// import 'package:shop_app/screens/shop_profile_screen.dart';
 import 'package:shop_app/services/auth_service.dart';
 import 'package:shop_app/services/firestore_service.dart';
 

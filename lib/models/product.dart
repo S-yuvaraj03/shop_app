@@ -12,6 +12,9 @@ class Product {
   final String? deliveryTime;
   final int? deliveryDays;
   final int? Available_count;
+  int totalAdded;
+  int totalSold;
+  final int lastlyUpdatedAvailableCount;
 
   Product({
     required this.product_id,
@@ -27,6 +30,9 @@ class Product {
     this.deliveryTime,
     this.deliveryDays,
     required this.Available_count,
+    required this.totalAdded,
+    required this.totalSold,
+    required this.lastlyUpdatedAvailableCount,
   });
 
   factory Product.fromMap(Map<String, dynamic> data) {
@@ -43,7 +49,10 @@ class Product {
       imageLink: data['imageLink'],
       deliveryTime: data['deliveryTime'],
       deliveryDays: data['deliveryDays'],
-      Available_count: data['Available_count']
+      Available_count: data['Available_count'],
+      totalAdded: data['totalAdded'] ?? 0,
+      totalSold: data['totalSold'] ?? 0,
+      lastlyUpdatedAvailableCount: data['lastlyUpdatedAvailableCount'] ?? 0, // Handle in fromMap
     );
   }
 
@@ -61,7 +70,10 @@ class Product {
       'imageLink': imageLink,
       'deliveryTime': deliveryTime,
       'deliveryDays': deliveryDays,
-      'Available_count': Available_count
+      'Available_count': Available_count,
+      'totalAdded': totalAdded,
+      'totalSold': totalSold,
+      'lastlyUpdatedAvailableCount': lastlyUpdatedAvailableCount,
     };
   }
 }
