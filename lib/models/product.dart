@@ -12,6 +12,7 @@ class Product {
   final String? deliveryTime;
   final int? deliveryDays;
   final int? Available_count;
+  final List<String>? productImages;
   int totalAdded;
   int totalSold;
   final int lastlyUpdatedAvailableCount;
@@ -33,6 +34,7 @@ class Product {
     required this.totalAdded,
     required this.totalSold,
     required this.lastlyUpdatedAvailableCount,
+    required this.productImages,
   });
 
   factory Product.fromMap(Map<String, dynamic> data) {
@@ -53,6 +55,9 @@ class Product {
       totalAdded: data['totalAdded'] ?? 0,
       totalSold: data['totalSold'] ?? 0,
       lastlyUpdatedAvailableCount: data['lastlyUpdatedAvailableCount'] ?? 0, // Handle in fromMap
+      productImages: data['productImages'] != null
+          ? List<String>.from(data['productImages'])
+          : null, 
     );
   }
 
@@ -74,6 +79,7 @@ class Product {
       'totalAdded': totalAdded,
       'totalSold': totalSold,
       'lastlyUpdatedAvailableCount': lastlyUpdatedAvailableCount,
+      'productImages': productImages,
     };
   }
 }
