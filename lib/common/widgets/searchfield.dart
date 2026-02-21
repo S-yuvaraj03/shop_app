@@ -21,6 +21,7 @@ class _SearchfieldState extends State<Searchfield> {
   final userEmail = AuthRepository().currentUser?.email ?? '';
   String _searchText = '';
   SpeechToText _speechToText = SpeechToText();
+  // ignore: unused_field
   bool _speechEnabled = false;
   String _lastWords = '';
 

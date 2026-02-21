@@ -24,6 +24,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // ignore: unused_local_variable
   final fcmToken = await FirebaseMessaging.instance.getToken();
   // print(fcmToken);
   await Permission.camera.request();
@@ -41,6 +42,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  // ignore: unused_field
   final PushNotificationService _notificationService =
       PushNotificationService();
   @override
